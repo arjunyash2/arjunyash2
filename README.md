@@ -1,6 +1,13 @@
 <h1 align="center">Hi 👋, I'm Arjun</h1>
 <h3 align="center">Passionate data analyst from India, telling stories with data.</h3>
 
+<div align="center">
+
+  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=arjunyash2&locale=en&hide_title=false&layout=compact&card_width=320&langs_count=5&theme=dracula&hide_border=false" height="150" alt="languages graph"  />
+  
+</div>
+
+
 - 🌱 I’m currently learning **Power BI and building with LLMs to create smart, data-driven applications.**
 
 - 👯 I’m looking to collaborate on **projects involving Python, SQL, Power BI, and big data analytics.**
@@ -26,6 +33,8 @@
     <td><strong>👨‍💻 Programming Languages</strong></td>
     <td><a href="https://www.java.com" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/></a></td>
     <td><a href="https://www.python.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/></a></td>
+    <td><a href="https://www.cprogramming.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="c" width="40" height="40"/></a></td>
+  
   </tr>
 
   <!-- Row for Databases -->
@@ -69,11 +78,10 @@
   </tr>
 <tr>
     <td><strong>📊 Visualization Tools</strong></td>
-    <td><a href="https://www.tableau.com/" target="_blank" rel="noreferrer"><img src="https://iconscout.com/free-icon/tableau-5376638_4489898" alt="tableau" width="40" height="40"/></a></td>
-    <td><a href="https://powerbi.microsoft.com/" target="_blank" rel="noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/Power_BI_Logo_2020.svg" alt="powerbi" width="40" height="40"/></a></td>
-    <td></td>
+  <td colspan="3" style="padding: 0; text-align: center;"><a href="https://powerbi.microsoft.com/" target="_blank" rel="noreferrer"><img src="https://github.com/microsoft/PowerBI-Icons/blob/main/SVG/Desktop.svg" alt="r" width="40" height="40"/></a></td>
+  </tr>
+    
+  
   </tr>
 </table>
 
-
-<p><img align="center" src="https://github-readme-stats.vercel.app/api/top-langs?username=arjunyash2&show_icons=true&locale=en&layout=compact" alt="arjunyash2" /></p>
