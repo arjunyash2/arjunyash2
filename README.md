@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">Hi 👋, I'm Arjun</h1>
+<h3 align="center">Passionate data analyst from India, telling stories with data.</h3>
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=arjunyash2&locale=en&hide_title=false&layout=compact&card_width=320&langs_count=5&theme=dracula&hide_border=false" height="150" alt="languages graph"  />
+  
+</div>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- 🌱 I’m currently learning **Power BI and building with LLMs to create smart, data-driven applications.**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 👯 I’m looking to collaborate on **projects involving Python, SQL, Power BI, and big data analytics.**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- 📝 I regularly write articles on [making sense of data and building intelligent applications.](making sense of data and building intelligent applications.)
 
-## Learn More
+- 💬 Ask me about **analytics workflows, AI tools, or anything data-related!**
 
-To learn more about Next.js, take a look at the following resources:
+- 📫 How to reach me **arjunyash2@gmail.com**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- ⚡ Fun fact **I find debugging more relaxing than watching Netflix.**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+<h3 align="left">Connect with me:</h3>
+<p align="left">
+<a href="https://linkedin.com/in/https://www.linkedin.com/in/arjunsdileep/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="https://www.linkedin.com/in/arjunsdileep/" height="30" width="40" /></a>
+</p>
 
-## Deploy on Vercel
+<h3 align="left">Languages and Tools:</h3>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<table align="left" style="border-spacing: 0; width: 100%; table-layout: fixed;">
+  <!-- Row for Programming Languages -->
+  <tr>
+    <td><strong>👨‍💻 Programming Languages</strong></td>
+    <td><a href="https://www.java.com" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/></a></td>
+    <td><a href="https://www.python.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/></a></td>
+    <td><a href="https://www.cprogramming.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="c" width="40" height="40"/></a></td>
+  
+  </tr>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  <!-- Row for Databases -->
+  <tr>
+    <td><strong>🗃️ Databases</strong></td>
+    <td><a href="https://www.mysql.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original-wordmark.svg" alt="mysql" width="40" height="40"/></a></td>
+    <td><a href="https://www.microsoft.com/en-us/sql-server" target="_blank" rel="noreferrer"><img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" alt="mssql" width="40" height="40"/></a></td>
+    <td><a href="https://www.postgresql.org" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/></a></td>
+  </tr>
+
+  <!-- Row for Cloud Platforms -->
+  <tr>
+    <td><strong>☁️ Cloud Platforms</strong></td>
+    <td><a href="https://aws.amazon.com" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" alt="aws" width="40" height="40"/></a></td>
+    <td><a href="https://azure.microsoft.com/en-in/" target="_blank" rel="noreferrer"><img src="https://www.vectorlogo.zone/logos/microsoft_azure/microsoft_azure-icon.svg" alt="azure" width="40" height="40"/></a></td>
+    <td><a href="https://cloud.google.com" target="_blank" rel="noreferrer"><img src="https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg" alt="gcp" width="40" height="40"/></a></td>
+  </tr>
+
+
+  <!-- Row for Data Science Libraries -->
+  <tr>
+    <td><strong>📊 Data Science Libraries</strong></td>
+    <td><a href="https://pandas.pydata.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/2ae2a900d2f041da66e950e4d48052658d850630/icons/pandas/pandas-original.svg" alt="pandas" width="40" height="40"/></a></td>
+    <td><a href="https://seaborn.pydata.org/" target="_blank" rel="noreferrer"><img src="https://seaborn.pydata.org/_images/logo-mark-lightbg.svg" alt="seaborn" width="40" height="40"/></a></td>
+    <td><a href="https://scikit-learn.org/" target="_blank" rel="noreferrer"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" alt="scikit_learn" width="40" height="40"/></a></td>
+
+  </tr>
+
+  <!-- Row for Machine Learning Libraries -->
+  <tr>
+    <td><strong>🤖 Machine Learning Libraries</strong></td>
+    <td><a href="https://pytorch.org/" target="_blank" rel="noreferrer"><img src="https://www.vectorlogo.zone/logos/pytorch/pytorch-icon.svg" alt="pytorch" width="40" height="40"/></a></td>
+    <td><a href="https://opencv.org/" target="_blank" rel="noreferrer"><img src="https://www.vectorlogo.zone/logos/opencv/opencv-icon.svg" alt="opencv" width="40" height="40"/></a></td>
+    <td><a href="https://www.tensorflow.org" target="_blank" rel="noreferrer"><img src="https://www.vectorlogo.zone/logos/tensorflow/tensorflow-icon.svg" alt="tensorflow" width="40" height="40"/></a></td>
+  </tr>
+
+  <!-- Row for R Programming -->
+  <tr>
+    <td><strong>📈 R Programming</strong></td>
+    <td colspan="3" style="padding: 0; text-align: center;"><a href="https://www.r-project.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/r/r-original.svg" alt="r" width="40" height="40"/></a></td>
+  </tr>
+<tr>
+    <td><strong>📊 Visualization Tools</strong></td>
+  <td colspan="3" style="padding: 0; text-align: center;"><a href="https://powerbi.microsoft.com/" target="_blank" rel="noreferrer"><img src="https://github.com/microsoft/PowerBI-Icons/blob/main/SVG/Desktop.svg" alt="r" width="40" height="40"/></a></td>
+  </tr>
+    
+  
+  </tr>
+</table>
+

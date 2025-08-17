@@ -34,26 +34,26 @@ export default function Home() {
               role: "Data Processor",
               company: "Capita PLC",
               date: "Feb 2025 – Present",
-              desc: "Resolved data deviation by efficiently managing support tickets, achieving 95% accuracy."
+              desc: "Resolved data deviation by efficiently managing support tickets, achieving 95% accuracy.",
             },
             {
               role: "Team Leader",
               company: "KFC QFM Group",
               date: "Oct 2022 – Sep 2024",
-              desc: "Optimised staff scheduling reducing inefficiencies by 15% and waste by 10%."
+              desc: "Optimised staff scheduling reducing inefficiencies by 15% and waste by 10%.",
             },
             {
               role: "IT Assistant / Quality Associate",
               company: "Amazon",
               date: "Nov 2023 – Feb 2024",
-              desc: "Improved workflow efficiency by 24% through IT error resolution."
+              desc: "Improved workflow efficiency by 24% through IT error resolution.",
             },
             {
               role: "Python Developer",
               company: "Infosys",
               date: "Jul 2021 – Sep 2022",
-              desc: "Built ETL pipelines, migrated 1TB+ data to Snowflake, improved reporting speed by 40%."
-            }
+              desc: "Built ETL pipelines, migrated 1TB+ data to Snowflake, improved reporting speed by 40%.",
+            },
           ].map((job, idx) => (
             <div key={idx} className="rounded-2xl shadow-md bg-white p-6">
               <h3 className="font-bold text-lg">{job.role}</h3>
@@ -80,7 +80,7 @@ export default function Home() {
             {
               title: "Suspicious Human Activity Recognition",
               desc: "CNN + Pose Estimation for surveillance, achieving 94.6% accuracy (IEEE published).",
-            }
+            },
           ].map((proj, idx) => (
             <div key={idx} className="rounded-2xl shadow-md bg-white p-6">
               <h3 className="font-bold text-lg">{proj.title}</h3>
@@ -98,14 +98,14 @@ export default function Home() {
             Suspicious Human Activity Recognition using 2D Pose Estimation and CNN, IEEE WiSPNET 2022
           </li>
           <li>
-            Book: Education's Hidden Drivers – LAP Lambert Academic Publishing (2025)
+            Book: Education&apos;s Hidden Drivers – LAP Lambert Academic Publishing (2025)
           </li>
         </ul>
       </section>
 
       {/* Footer */}
       <footer className="text-center py-8 text-gray-500 text-sm">
-        © {new Date().getFullYear()} Arjun S.D | Built with Next.js & Tailwind
+        © {new Date().getFullYear()} Arjun S.D | Built with Next.js &amp; Tailwind
       </footer>
     </main>
   );
