@@ -60,7 +60,7 @@ export default function Home() {
       <header className="relative text-center py-24 z-10">
         <div className="relative w-56 h-56 mx-auto mb-6">
           <motion.img
-            src="/assets/images/profile_1.JPG"
+            src="/assets/images/profile.jpg"
             alt="Arjun S.D"
             className="w-56 h-56 rounded-full border-4 border-indigo-400 shadow-2xl cursor-pointer object-cover"
             whileHover={{ scale: 1.08 }}
