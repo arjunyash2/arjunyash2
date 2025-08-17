@@ -1,103 +1,112 @@
-import Image from "next/image";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="min-h-screen bg-gray-50 text-gray-900">
+      {/* Hero Section */}
+      <header className="text-center py-16 bg-white shadow-md">
+        <h1 className="text-4xl font-bold mb-2">Arjun S.D</h1>
+        <p className="text-lg text-gray-600">Data Analyst | Developer | Researcher</p>
+        <div className="flex justify-center gap-4 mt-4">
+          <a aria-label="Email" href="mailto:arjunyash2@gmail.com"><Mail className="w-6 h-6" /></a>
+          <a aria-label="LinkedIn" href="https://www.linkedin.com/in/arjunsdileep/" target="_blank" rel="noreferrer"><Linkedin className="w-6 h-6" /></a>
+          {/* Optional: replace with your real GitHub URL */}
+          {/* <a aria-label="GitHub" href="https://github.com/your-username" target="_blank" rel="noreferrer"><Github className="w-6 h-6" /></a> */}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </header>
+
+      {/* Summary */}
+      <section className="max-w-4xl mx-auto py-12 px-4">
+        <h2 className="text-2xl font-semibold mb-4">About Me</h2>
+        <p>
+          MSc in Big Data Analytics (1st Class) from Sheffield Hallam University with 2+ years of
+          experience in developer and data roles. Proficient in SQL, Python (NumPy, Pandas, SciPy),
+          cloud technologies, predictive modelling, A/B testing, and real-time dashboards.
+        </p>
+      </section>
+
+      {/* Experience */}
+      <section className="bg-gray-100 py-12 px-4">
+        <h2 className="text-2xl font-semibold mb-8 text-center">Experience</h2>
+        <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+          {[
+            {
+              role: "Data Processor",
+              company: "Capita PLC",
+              date: "Feb 2025 – Present",
+              desc: "Resolved data deviation by efficiently managing support tickets, achieving 95% accuracy."
+            },
+            {
+              role: "Team Leader",
+              company: "KFC QFM Group",
+              date: "Oct 2022 – Sep 2024",
+              desc: "Optimised staff scheduling reducing inefficiencies by 15% and waste by 10%."
+            },
+            {
+              role: "IT Assistant / Quality Associate",
+              company: "Amazon",
+              date: "Nov 2023 – Feb 2024",
+              desc: "Improved workflow efficiency by 24% through IT error resolution."
+            },
+            {
+              role: "Python Developer",
+              company: "Infosys",
+              date: "Jul 2021 – Sep 2022",
+              desc: "Built ETL pipelines, migrated 1TB+ data to Snowflake, improved reporting speed by 40%."
+            }
+          ].map((job, idx) => (
+            <div key={idx} className="rounded-2xl shadow-md bg-white p-6">
+              <h3 className="font-bold text-lg">{job.role}</h3>
+              <p className="text-gray-600">{job.company} | {job.date}</p>
+              <p className="mt-2 text-sm text-gray-700">{job.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Projects */}
+      <section className="max-w-5xl mx-auto py-12 px-4">
+        <h2 className="text-2xl font-semibold mb-8 text-center">Projects</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              title: "Student Attainment Dashboard",
+              desc: "Processed 2M+ records in Python, built Power BI dashboards for UK student performance.",
+            },
+            {
+              title: "Real Estate & Crime Analysis",
+              desc: "Built ETL pipelines integrating 30M+ records, visualized insights with R & Tableau.",
+            },
+            {
+              title: "Suspicious Human Activity Recognition",
+              desc: "CNN + Pose Estimation for surveillance, achieving 94.6% accuracy (IEEE published).",
+            }
+          ].map((proj, idx) => (
+            <div key={idx} className="rounded-2xl shadow-md bg-white p-6">
+              <h3 className="font-bold text-lg">{proj.title}</h3>
+              <p className="mt-2 text-sm text-gray-700">{proj.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Publications */}
+      <section className="bg-gray-100 py-12 px-4">
+        <h2 className="text-2xl font-semibold mb-8 text-center">Publications</h2>
+        <ul className="list-disc list-inside max-w-3xl mx-auto text-gray-700">
+          <li>
+            Suspicious Human Activity Recognition using 2D Pose Estimation and CNN, IEEE WiSPNET 2022
+          </li>
+          <li>
+            Book: Education's Hidden Drivers – LAP Lambert Academic Publishing (2025)
+          </li>
+        </ul>
+      </section>
+
+      {/* Footer */}
+      <footer className="text-center py-8 text-gray-500 text-sm">
+        © {new Date().getFullYear()} Arjun S.D | Built with Next.js & Tailwind
       </footer>
-    </div>
+    </main>
   );
 }
