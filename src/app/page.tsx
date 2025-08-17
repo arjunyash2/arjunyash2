@@ -1,4 +1,6 @@
-import { Github, Linkedin, Mail, BookOpen } from "lucide-react";
+"use client";
+
+import { Github, Linkedin, Mail, BookOpen, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -6,13 +8,22 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-white to-indigo-100 text-gray-900">
       {/* Hero Section */}
       <header className="text-center py-20 bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-md">
-        <motion.img
-          src="/profile.jpg" // replace with your profile photo path
-          alt="Arjun S.D"
-          className="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-white shadow-xl cursor-pointer hover:scale-105 transition-transform"
-          whileHover={{ scale: 1.1 }}
-          onClick={() => window.open("https://www.amazon.com/dp/YOUR-BOOK-LINK", "_blank")} // replace with your book link
-        />
+        <div className="relative w-40 h-40 mx-auto mb-6">
+          <motion.img
+            src="/profile.jpg" // replace with your profile photo path
+            alt="Arjun S.D"
+            className="w-40 h-40 rounded-full border-4 border-white shadow-xl cursor-pointer"
+            whileHover={{ scale: 1.1 }}
+          />
+          <a
+            href="https://www.amazon.com/dp/YOUR-BOOK-LINK" // replace with your book link
+            target="_blank"
+            rel="noreferrer"
+            className="absolute inset-0 rounded-full"
+          >
+            <span className="sr-only">View Book</span>
+          </a>
+        </div>
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -126,14 +137,35 @@ export default function Home() {
       {/* Publications */}
       <section className="bg-gradient-to-r from-indigo-50 to-purple-50 py-16 px-6">
         <h2 className="text-3xl font-semibold mb-10 text-center">Publications</h2>
-        <ul className="list-disc list-inside max-w-3xl mx-auto text-gray-700 text-lg space-y-4">
-          <li>
-            Suspicious Human Activity Recognition using 2D Pose Estimation and CNN, IEEE WiSPNET 2022
-          </li>
-          <li>
-            Book: Education&apos;s Hidden Drivers – LAP Lambert Academic Publishing (2025)
-          </li>
-        </ul>
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {[
+            {
+              title: "Suspicious Human Activity Recognition using 2D Pose Estimation and CNN",
+              source: "IEEE WiSPNET 2022",
+              link: "https://doi.org/10.1109/WiSPNET54241.2022.9767152",
+            },
+            {
+              title: "Education&apos;s Hidden Drivers – A Comprehensive Study",
+              source: "LAP Lambert Academic Publishing (2025)",
+              link: "https://www.amazon.com/dp/YOUR-BOOK-LINK",
+            },
+          ].map((pub, idx) => (
+            <motion.a
+              key={idx}
+              href={pub.link}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-2xl shadow-lg bg-white p-6 flex items-start gap-4 hover:shadow-2xl transition-shadow hover:scale-[1.02]"
+              whileHover={{ scale: 1.02 }}
+            >
+              <div className="flex-1">
+                <h3 className="font-bold text-lg text-indigo-700">{pub.title}</h3>
+                <p className="text-gray-600">{pub.source}</p>
+              </div>
+              <ExternalLink className="w-5 h-5 text-indigo-500 mt-1" />
+            </motion.a>
+          ))}
+        </div>
       </section>
 
       {/* Footer */}
