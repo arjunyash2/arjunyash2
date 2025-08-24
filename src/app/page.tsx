@@ -1,12 +1,12 @@
 "use client";
 
-import { Github, Linkedin, Mail, BookOpen, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Mail, BookOpen, ExternalLink, Award } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function Home() {
   const [displayedText, setDisplayedText] = useState("");
-  const fullText = "Arjun S.D";
+  const fullText = "Arjun";
 
   useEffect(() => {
     let i = 0;
@@ -19,7 +19,24 @@ export default function Home() {
   }, []);
 
   return (
+    
     <main className="min-h-screen bg-black text-gray-100 relative overflow-hidden">
+      {/* Navigation */}
+        <nav className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-md z-50 shadow-lg">
+          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 className="text-xl font-bold text-indigo-400">Arjun</h1>
+            <ul className="flex gap-6 text-gray-300 font-medium">
+              {["About", "Experience", "Projects", "Certifications", "Publications", "Contact"].map((item) => (
+                <li key={item}>
+                  <a href={`#${item.toLowerCase()}`} className="hover:text-indigo-400 transition-colors">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
       {/* Geeky animated SVG background */}
       <div className="absolute inset-0 z-0">
         <svg className="w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -38,18 +55,8 @@ export default function Home() {
                 r={Math.random() * 2 + 1}
                 fill="url(#grad)"
               >
-                <animate
-                  attributeName="cy"
-                  values="0;900"
-                  dur={`${5 + Math.random() * 10}s`}
-                  repeatCount="indefinite"
-                />
-                <animate
-                  attributeName="cx"
-                  values={`0;${1600}`}
-                  dur={`${8 + Math.random() * 12}s`}
-                  repeatCount="indefinite"
-                />
+                <animate attributeName="cy" values="0;900" dur={`${5 + Math.random() * 10}s`} repeatCount="indefinite" />
+                <animate attributeName="cx" values={`0;${1600}`} dur={`${8 + Math.random() * 12}s`} repeatCount="indefinite" />
               </circle>
             ))}
           </g>
@@ -65,17 +72,9 @@ export default function Home() {
             className="w-56 h-56 rounded-full border-4 border-indigo-400 shadow-2xl cursor-pointer object-cover"
             whileHover={{ scale: 1.08 }}
           />
-          <a
-            href="https://www.amazon.co.uk/Educations-Hidden-Drivers-Comprehensive-Universities/dp/6208444330"
-            target="_blank"
-            rel="noreferrer"
-            className="absolute inset-0 rounded-full"
-          >
-            <span className="sr-only">View Book</span>
-          </a>
         </div>
 
-        {/* Typing animation with blinking cursor */}
+        {/* Typing animation */}
         <motion.h1
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -86,71 +85,46 @@ export default function Home() {
           <span className="blinking-cursor">_</span>
         </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-lg max-w-xl mx-auto text-gray-300"
-        >
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="text-lg max-w-xl mx-auto text-gray-300">
           Prompt Engineer | LLM Engineer | Machine Learning Engineer
         </motion.p>
 
         <div className="flex justify-center gap-6 mt-6">
           <a aria-label="Email" href="mailto:arjunyash2@gmail.com" className="hover:scale-125 transition-transform"><Mail className="w-8 h-8 text-indigo-300" /></a>
           <a aria-label="LinkedIn" href="https://www.linkedin.com/in/arjunsdileep/" target="_blank" rel="noreferrer" className="hover:scale-125 transition-transform"><Linkedin className="w-8 h-8 text-indigo-300" /></a>
-          <a aria-label="GitHub" href="https://github.com/your-username" target="_blank" rel="noreferrer" className="hover:scale-125 transition-transform"><Github className="w-8 h-8 text-indigo-300" /></a>
-          <a aria-label="Book" href="https://www.amazon.co.uk/Educations-Hidden-Drivers-Comprehensive-Universities/dp/6208444330" target="_blank" rel="noreferrer" className="hover:scale-125 transition-transform"><BookOpen className="w-8 h-8 text-indigo-300" /></a>
+          <a aria-label="GitHub" href="https://github.com/arjunyash2/arjunyash2" target="_blank" rel="noreferrer" className="hover:scale-125 transition-transform"><Github className="w-8 h-8 text-indigo-300" /></a>
         </div>
       </header>
 
-      {/* Summary */}
-      <section className="relative z-10 max-w-4xl mx-auto py-16 px-6 text-center">
-        <motion.h2 className="text-3xl font-semibold mb-6 text-indigo-300" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>About Me</motion.h2>
-        <motion.p
-          className="text-lg text-gray-300 leading-relaxed"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          I am a Prompt Engineer and ML Engineer passionate about building intelligent systems powered by LLMs and deep learning. With expertise in Python, SQL, and cloud platforms, I design scalable pipelines, develop AI-driven solutions, and craft optimized prompts to unlock the full potential of large language models. My goal is to merge creativity with engineering to build impactful, real-world AI applications.
+      {/* About */}
+      <section className="relative z-10 max-w-4xl mx-auto py-16 px-6 text-center" id="about">
+        <motion.h2 className="text-3xl font-semibold mb-6 text-indigo-300">About Me</motion.h2>
+        <motion.p className="text-lg text-gray-300 leading-relaxed">
+          MSc Big Data Analytics graduate with 2+ years of developer experience. Skilled in SQL, Python, cloud platforms (AWS, Azure), and LLM prompt engineering. I specialize in building scalable AI systems, ETL pipelines, and interactive dashboards that drive insights and real-world impact.
         </motion.p>
       </section>
 
+      {/* Skills */}
+      <section className="relative z-10 bg-gray-900/60 py-16 px-6" id="skills">
+        <h2 className="text-3xl font-semibold mb-10 text-center text-indigo-300">Skills</h2>
+        <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
+          {["Python", "SQL", "Power BI", "R", "AWS", "Azure", "Snowflake", "TensorFlow", "PyTorch", "Pandas", "NumPy", "Matplotlib", "Seaborn"].map((skill, idx) => (
+            <span key={idx} className="bg-gray-800 text-indigo-300 px-4 py-2 rounded-lg shadow hover:scale-105 transition-transform">{skill}</span>
+          ))}
+        </div>
+      </section>
+
       {/* Experience */}
-      <section className="relative z-10 bg-gray-900/60 py-16 px-6">
+      <section className="relative z-10 py-16 px-6" id="experience">
         <h2 className="text-3xl font-semibold mb-10 text-center text-indigo-300">Experience</h2>
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {[
-            {
-              role: "Data Processor",
-              company: "Capita PLC",
-              date: "Feb 2025 – Present",
-              desc: "Managed support tickets with 95%+ accuracy, driving data quality improvements.",
-            },
-            {
-              role: "Python Developer",
-              company: "Infosys",
-              date: "Jul 2021 – Sep 2022",
-              desc: "Built ETL pipelines and migrated 1TB+ data to Snowflake, boosting reporting speed.",
-            },
-            {
-              role: "IT Assistant / Quality Associate",
-              company: "Amazon",
-              date: "Nov 2023 – Feb 2024",
-              desc: "Enhanced workflow efficiency by 24% with IT error resolution and quality analysis.",
-            },
-            {
-              role: "Team Leader",
-              company: "KFC QFM Group",
-              date: "Oct 2022 – Sep 2024",
-              desc: "Reduced inefficiencies by 15% and minimized waste by 10% using data-driven insights.",
-            },
+            { role: "Data Processor", company: "Capita PLC", date: "Feb 2025 – Present", desc: "Resolved 200+ tickets daily, 95% accuracy, improved customer satisfaction by 90%." },
+            { role: "IT Assistant / Quality Associate", company: "Amazon", date: "Nov 2023 – Feb 2024", desc: "Improved workflow efficiency by 24%, ensured 100% compliance in quality analysis." },
+            { role: "Python Developer", company: "Infosys", date: "Jul 2021 – Sep 2022", desc: "Led 10-person data team, migrated 1TB+ to Snowflake, 99% data accuracy." },
+            { role: "Software Developer", company: "ARCITE", date: "Jan 2020 – Jun 2021", desc: "Built Django web apps, integrated MySQL, improved performance 40%." },
           ].map((job, idx) => (
-            <motion.div
-              key={idx}
-              className="rounded-2xl shadow-lg bg-gray-800/90 p-8 hover:shadow-2xl transition-shadow"
-              whileHover={{ scale: 1.02 }}
-            >
+            <motion.div key={idx} className="rounded-2xl shadow-lg bg-gray-800/90 p-8 hover:shadow-2xl transition-shadow" whileHover={{ scale: 1.02 }}>
               <h3 className="font-bold text-xl text-indigo-400">{job.role}</h3>
               <p className="text-gray-400">{job.company} | {job.date}</p>
               <p className="mt-3 text-gray-300">{job.desc}</p>
@@ -160,59 +134,75 @@ export default function Home() {
       </section>
 
       {/* Projects */}
-      <section className="relative z-10 max-w-6xl mx-auto py-16 px-6">
+      <section className="relative z-10 py-16 px-6" id="projects">
         <h2 className="text-3xl font-semibold mb-10 text-center text-indigo-300">Projects</h2>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
-            {
-              title: "Student Attainment Dashboard",
-              desc: "Processed 2M+ records in Python and built Power BI dashboards for academic planning.",
-            },
-            {
-              title: "Real Estate & Crime Analysis",
-              desc: "Integrated 30M+ records using ETL pipelines and visualized insights with R & Tableau.",
-            },
-            {
-              title: "Suspicious Human Activity Recognition",
-              desc: "Developed CNN + Pose Estimation achieving 94.6% accuracy, published in IEEE.",
-            },
+            { title: "Student Attainment Dashboard", 
+              desc: "Processed 2M+ records, built Power BI dashboards for academic planning.",
+              skills: ["Python", "Power BI", "SQL", "Data Analysis"],
+              link: "https://github.com/arjunyash2/unistats" },
+
+            { title: "Real Estate & Crime Analysis", 
+              desc: "Integrated 30M+ records with R, Hadoop, Tableau. Built visual insights.", 
+              skills: [ "R", "SQL", "ETL", "Tableau", "Hadoop", "Hive", "Jira", "Project Management"],
+              link: "https://github.com/arjunyash2/crimeRateRealestate" },
+
+            { title: "Suspicious Human Activity Recognition", 
+              desc: "Pose Estimation + CNN, 94.6% accuracy, IEEE paper.", 
+              skills: ["Python", "CNN", "Pose Estimation", "TensorFlow"] },
+
           ].map((proj, idx) => (
-            <motion.div
-              key={idx}
-              className="rounded-2xl shadow-lg bg-gray-800/90 p-8 hover:shadow-2xl transition-shadow"
-              whileHover={{ scale: 1.03 }}
-            >
-              <h3 className="font-bold text-xl text-purple-300">{proj.title}</h3>
-              <p className="mt-3 text-gray-300">{proj.desc}</p>
-            </motion.div>
+          <motion.div key={idx} className="rounded-2xl shadow-lg bg-gray-800/90 p-8 hover:shadow-2xl transition-shadow" whileHover={{ scale: 1.03 }}>
+            <h3 className="font-bold text-xl text-purple-300">{proj.title}</h3>
+            <p className="mt-3 text-gray-300">{proj.desc}</p>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {proj.skills.map((skill, i) => (
+                <span key={i} className="px-3 py-1 text-sm bg-indigo-600/30 rounded-full text-indigo-300">
+                  {skill}
+                </span>
+           ))}
+    </div>
+    <a href={proj.link} target="_blank" rel="noreferrer" className="block mt-4 text-indigo-400 hover:underline">View Project</a>
+  </motion.div>
+))}
+        </div>
+      </section>
+
+      {/* Certifications */}
+      <section className="relative z-10 bg-gray-900/60 py-16 px-6" id="certifications">
+        <h2 className="text-3xl font-semibold mb-10 text-center text-indigo-300">Licenses & Certifications</h2>
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {[
+            { title: "PwC Switzerland - Digital Intelligence Simulation", org: "Forage", date: "Dec 2024", skills: ["Python", "Power BI", "SQL", "Data Analysis", "Project Management"], link: "#" },
+            { title: "Databases and SQL for Data Science", org: "Coursera", date: "Oct 2024", skills: ["Python", "SQL"], link: "#" },
+            { title: "AWS Certified Cloud Practitioner", org: "AWS", date: "Apr 2024 – Apr 2027", skills: ["AWS"], link: "#" },
+            { title: "Microsoft Certified: Azure Fundamentals", org: "Microsoft", date: "May 2022", link: "#" },
+            { title: "Google IT Support Certificate", org: "Coursera", date: "Dec 2021", skills: ["IT Support"], link: "#" },
+            { title: "Advanced Unix - Shell Programming", org: "Infosys", date: "Oct 2021", skills: ["Shell Scripting"], link: "#" },
+            { title: "Google Cloud Big Data & ML Fundamentals", org: "Coursera", date: "May 2020", skills: ["GCP"], link: "#" },
+          ].map((cert, idx) => (
+            <motion.a key={idx} href={cert.link} target="_blank" rel="noreferrer" className="rounded-2xl shadow-lg bg-gray-800/90 p-6 flex items-start gap-4 hover:shadow-2xl transition-shadow hover:scale-[1.02]">
+              <Award className="w-6 h-6 text-indigo-300 mt-1" />
+              <div>
+                <h3 className="font-bold text-lg text-indigo-300">{cert.title}</h3>
+                <p className="text-gray-400">{cert.org} | {cert.date}</p>
+              </div>
+            </motion.a>
           ))}
+          
         </div>
       </section>
 
       {/* Publications */}
-      <section className="relative z-10 bg-gray-900/60 py-16 px-6">
+      <section className="relative z-10 py-16 px-6" id="publications">
         <h2 className="text-3xl font-semibold mb-10 text-center text-indigo-300">Publications</h2>
         <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {[
-            {
-              title: "Suspicious Human Activity Recognition using 2D Pose Estimation and CNN",
-              source: "IEEE WiSPNET 2022",
-              link: "https://doi.org/10.1109/WiSPNET54241.2022.9767152",
-            },
-            {
-              title: "Education&apos;s Hidden Drivers – A Comprehensive Study",
-              source: "LAP Lambert Academic Publishing (2025)",
-              link: "https://www.amazon.co.uk/Educations-Hidden-Drivers-Comprehensive-Universities/dp/6208444330",
-            },
+            { title: "Suspicious Human Activity Recognition using Pose Estimation + CNN", source: "IEEE WiSPNET 2022", link: "https://doi.org/10.1109/WiSPNET54241.2022.9767152" },
+            { title: "Education's Hidden Drivers – A Comprehensive Study", source: "LAP Lambert Academic Publishing (2025)", link: "https://www.amazon.co.uk/Educations-Hidden-Drivers-Comprehensive-Universities/dp/6208444330" },
           ].map((pub, idx) => (
-            <motion.a
-              key={idx}
-              href={pub.link}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-2xl shadow-lg bg-gray-800/90 p-6 flex items-start gap-4 hover:shadow-2xl transition-shadow hover:scale-[1.02]"
-              whileHover={{ scale: 1.02 }}
-            >
+            <motion.a key={idx} href={pub.link} target="_blank" rel="noreferrer" className="rounded-2xl shadow-lg bg-gray-800/90 p-6 flex items-start gap-4 hover:shadow-2xl transition-shadow hover:scale-[1.02]">
               <div className="flex-1">
                 <h3 className="font-bold text-lg text-indigo-300">{pub.title}</h3>
                 <p className="text-gray-400">{pub.source}</p>
