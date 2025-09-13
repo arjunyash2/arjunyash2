@@ -10,9 +10,7 @@
 
 - 🌱 I’m currently learning **Power BI and building with LLMs to create smart, data-driven applications.**
 
-- 👯 I’m looking to collaborate on **projects involving Python, SQL, Power BI, and big data analytics.**
-
-- 📝 I regularly write articles on [making sense of data and building intelligent applications.](making sense of data and building intelligent applications.)
+- 👯 I’m looking to collaborate on **projects involving Python, SQL, Power BI, and big data analytics and Web Development.**
 
 - 💬 Ask me about **analytics workflows, AI tools, or anything data-related!**
 
