@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Arjun</h1>
-<h3 align="center">Passionate data analyst from India, telling stories with data.</h3>
+<h3 align="center">Passionate AI Developer from India </h3>
 
 
 - 🌱 I’m currently learning **Power BI and building with LLMs to create smart, data-driven applications.**
