@@ -1,5 +1,123 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useSpring,
+  animate,
+  useReducedMotion,
+} from "framer-motion";
+
+/* ── Motion primitives ───────────────────────────────────────── */
+
+// Scroll-reveal wrapper: fades + lifts content into view once.
+function Reveal({
+  children,
+  delay = 0,
+  y = 26,
+  className,
+}: {
+  children: ReactNode;
+  delay?: number;
+  y?: number;
+  className?: string;
+}) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Counts up to `to` when scrolled into view.
+function Counter({
+  to,
+  decimals = 0,
+  suffix = "",
+}: {
+  to: number;
+  decimals?: number;
+  suffix?: string;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const reduce = useReducedMotion();
+  const [val, setVal] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    if (reduce) {
+      setVal(to);
+      return;
+    }
+    const controls = animate(0, to, {
+      duration: 1.5,
+      ease: [0.22, 1, 0.36, 1],
+      onUpdate: (v) => setVal(v),
+    });
+    return () => controls.stop();
+  }, [inView, to, reduce]);
+
+  return (
+    <span ref={ref}>
+      {val.toFixed(decimals)}
+      {suffix}
+    </span>
+  );
+}
+
+// Cursor-following magnetic pull for buttons.
+function Magnetic({
+  children,
+  href,
+  className,
+  strength = 0.35,
+}: {
+  children: ReactNode;
+  href: string;
+  className?: string;
+  strength?: number;
+}) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const reduce = useReducedMotion();
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 180, damping: 16, mass: 0.4 });
+  const sy = useSpring(y, { stiffness: 180, damping: 16, mass: 0.4 });
+
+  const onMove = (e: React.MouseEvent) => {
+    if (reduce || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    x.set((e.clientX - r.left - r.width / 2) * strength);
+    y.set((e.clientY - r.top - r.height / 2) * strength);
+  };
+  const reset = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      className={className}
+      style={{ x: sx, y: sy }}
+      onMouseMove={onMove}
+      onMouseLeave={reset}
+    >
+      {children}
+    </motion.a>
+  );
+}
+
+/* ── Page ────────────────────────────────────────────────────── */
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("about");
@@ -39,11 +157,24 @@ export default function Portfolio() {
 
   const skills = ["Python", "SQL", "Power BI", "AWS", "Azure", "Snowflake", "TensorFlow", "PyTorch", "Pandas", "NumPy", "Matplotlib", "Seaborn"];
 
+  const stats = [
+    { to: 2, suffix: "+", label: "Years Exp." },
+    { to: 2, suffix: "", label: "Publications" },
+    { to: 7, suffix: "", label: "Certifications" },
+    { to: 94.6, decimals: 1, suffix: "%", label: "Model Accuracy" },
+  ];
+
   const experiences = [
+    {
+      role: "AI Developer",
+      company: "GNx Solutions",
+      period: "May 2026 – Present",
+      desc: "Building production LLM-powered applications and multi-agent AI systems — designing prompt pipelines, RAG-backed tooling, and intelligent automation.",
+    },
     {
       role: "Data Processor",
       company: "Capita PLC",
-      period: "Feb 2025 – Present",
+      period: "Feb 2025 – Jan 2026",
       desc: "Resolved 200+ tickets daily with 95% accuracy; improved customer satisfaction by 90%.",
     },
     {
@@ -116,6 +247,13 @@ export default function Portfolio() {
     },
   ];
 
+  // Spotlight-follow handler shared by project cards.
+  const onCardMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
+
   return (
     <>
       <style>{`
@@ -144,9 +282,59 @@ export default function Portfolio() {
           font-size: 16px;
           line-height: 1.6;
           -webkit-font-smoothing: antialiased;
+          overflow-x: hidden;
         }
 
-        /* NAV */
+        /* FILM GRAIN — fixed overlay for tactile depth */
+        .grain {
+          position: fixed;
+          inset: 0;
+          z-index: 9998;
+          pointer-events: none;
+          opacity: 0.045;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+        }
+
+        /* AURORA — slow-drifting accent light behind the page */
+        .aurora {
+          position: fixed;
+          inset: 0;
+          z-index: 0;
+          pointer-events: none;
+          overflow: hidden;
+        }
+        .aurora span {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(90px);
+          opacity: 0.5;
+        }
+        .aurora .a1 {
+          top: -10%; left: -5%;
+          width: 50vw; height: 50vw;
+          background: radial-gradient(circle, rgba(212,168,83,0.10), transparent 65%);
+          animation: drift1 22s ease-in-out infinite;
+        }
+        .aurora .a2 {
+          bottom: -15%; right: -10%;
+          width: 45vw; height: 45vw;
+          background: radial-gradient(circle, rgba(196,75,75,0.07), transparent 65%);
+          animation: drift2 28s ease-in-out infinite;
+        }
+        @keyframes drift1 {
+          0%,100% { transform: translate(0,0) scale(1); }
+          50% { transform: translate(8vw, 6vh) scale(1.15); }
+        }
+        @keyframes drift2 {
+          0%,100% { transform: translate(0,0) scale(1); }
+          50% { transform: translate(-6vw, -5vh) scale(1.1); }
+        }
+
+        /* keep real content above the aurora layer */
+        nav, .hero, section, footer { position: relative; z-index: 1; }
+
+        /* NAV — glassmorphic when scrolled */
         nav {
           position: fixed;
           top: 0; left: 0; right: 0;
@@ -155,13 +343,15 @@ export default function Portfolio() {
           align-items: center;
           justify-content: space-between;
           padding: 1.2rem 3rem;
-          transition: background 0.3s, border-color 0.3s;
+          transition: background 0.4s, border-color 0.4s, padding 0.4s;
           border-bottom: 1px solid transparent;
         }
         nav.scrolled {
-          background: rgba(10,10,10,0.92);
-          backdrop-filter: blur(12px);
-          border-color: var(--border);
+          background: rgba(12,12,12,0.6);
+          backdrop-filter: blur(16px) saturate(150%);
+          -webkit-backdrop-filter: blur(16px) saturate(150%);
+          border-color: rgba(255,255,255,0.06);
+          padding: 0.9rem 3rem;
         }
         .nav-logo {
           font-family: 'DM Mono', monospace;
@@ -184,15 +374,15 @@ export default function Portfolio() {
           color: var(--muted);
           text-decoration: none;
           transition: color 0.2s;
+          position: relative;
         }
         .nav-links a:hover, .nav-links a.active { color: var(--text); }
         .nav-links a.active::after {
           content: '';
-          display: block;
-          width: 100%;
+          position: absolute;
+          left: 0; right: 0; bottom: -4px;
           height: 1px;
           background: var(--accent);
-          margin-top: 2px;
         }
 
         /* HAMBURGER */
@@ -220,26 +410,19 @@ export default function Portfolio() {
           flex-direction: column;
           justify-content: flex-end;
           padding: 0 3rem 5rem;
-          position: relative;
           overflow: hidden;
         }
         .hero-grid {
           position: absolute;
           inset: 0;
+          z-index: -1;
           background-image:
             linear-gradient(var(--border) 1px, transparent 1px),
             linear-gradient(90deg, var(--border) 1px, transparent 1px);
           background-size: 60px 60px;
-          opacity: 0.35;
-        }
-        .hero-glow {
-          position: absolute;
-          top: 30%;
-          left: -10%;
-          width: 600px;
-          height: 600px;
-          background: radial-gradient(circle, rgba(212,168,83,0.07) 0%, transparent 70%);
-          pointer-events: none;
+          opacity: 0.3;
+          -webkit-mask-image: radial-gradient(circle at 30% 60%, #000 0%, transparent 75%);
+          mask-image: radial-gradient(circle at 30% 60%, #000 0%, transparent 75%);
         }
         .hero-number {
           font-family: 'DM Mono', monospace;
@@ -256,7 +439,12 @@ export default function Portfolio() {
           letter-spacing: -0.02em;
           margin-bottom: 2rem;
         }
-        .hero-title span { color: var(--accent); }
+        .hero-title span {
+          background: linear-gradient(120deg, var(--accent), #f0d49a 50%, var(--accent));
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
         .hero-subtitle {
           font-family: 'DM Mono', monospace;
           font-size: 0.8rem;
@@ -291,9 +479,10 @@ export default function Portfolio() {
           letter-spacing: 0.12em;
           text-transform: uppercase;
           text-decoration: none;
-          transition: opacity 0.2s, transform 0.2s;
+          box-shadow: 0 0 0 rgba(212,168,83,0);
+          transition: box-shadow 0.3s, opacity 0.2s;
         }
-        .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-primary:hover { opacity: 0.92; box-shadow: 0 10px 40px -8px rgba(212,168,83,0.45); }
         .btn-ghost {
           display: inline-flex;
           align-items: center;
@@ -317,6 +506,7 @@ export default function Portfolio() {
           flex-direction: column;
           gap: 2rem;
           text-align: right;
+          z-index: 1;
         }
         .stat-num {
           font-family: 'Playfair Display', serif;
@@ -389,12 +579,10 @@ export default function Portfolio() {
           font-size: 0.68rem;
           letter-spacing: 0.1em;
           color: var(--muted);
-          transition: border-color 0.2s, color 0.2s;
+          transition: border-color 0.2s, color 0.2s, transform 0.2s;
         }
-        .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
-        .profile-card {
-          position: relative;
-        }
+        .skill-tag:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+        .profile-card { position: relative; }
         .profile-img-wrap {
           position: relative;
           width: 100%;
@@ -413,7 +601,9 @@ export default function Portfolio() {
           height: 100%;
           object-fit: cover;
           filter: grayscale(20%) contrast(1.05);
+          transition: filter 0.5s, transform 0.6s;
         }
+        .profile-card:hover .profile-img-wrap img { filter: grayscale(0%) contrast(1.05); transform: scale(1.03); }
         .profile-accent-border {
           position: absolute;
           top: 1.5rem;
@@ -422,7 +612,9 @@ export default function Portfolio() {
           left: 1.5rem;
           border: 1px solid var(--accent);
           z-index: -1;
+          transition: transform 0.5s;
         }
+        .profile-card:hover .profile-accent-border { transform: translate(-0.4rem, 0.4rem); }
 
         /* EXPERIENCE */
         #experience { background: var(--surface); }
@@ -431,10 +623,23 @@ export default function Portfolio() {
           display: grid;
           grid-template-columns: 200px 1fr;
           gap: 3rem;
-          padding: 2.5rem 0;
+          padding: 2.5rem 1rem 2.5rem 0;
           border-bottom: 1px solid var(--border);
-          transition: background 0.2s;
+          transition: background 0.3s, padding-left 0.3s;
+          position: relative;
         }
+        .exp-item::before {
+          content: '';
+          position: absolute;
+          left: -1rem; top: 0; bottom: -1px;
+          width: 2px;
+          background: var(--accent);
+          transform: scaleY(0);
+          transform-origin: top;
+          transition: transform 0.3s;
+        }
+        .exp-item:hover { background: rgba(255,255,255,0.015); padding-left: 1rem; }
+        .exp-item:hover::before { transform: scaleY(1); }
         .exp-item:first-child { border-top: 1px solid var(--border); }
         .exp-meta { display: flex; flex-direction: column; gap: 0.25rem; }
         .exp-period {
@@ -442,6 +647,21 @@ export default function Portfolio() {
           font-size: 0.68rem;
           letter-spacing: 0.1em;
           color: var(--accent);
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .exp-current {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: var(--accent);
+          box-shadow: 0 0 0 0 rgba(212,168,83,0.6);
+          animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+          0% { box-shadow: 0 0 0 0 rgba(212,168,83,0.5); }
+          70% { box-shadow: 0 0 0 7px rgba(212,168,83,0); }
+          100% { box-shadow: 0 0 0 0 rgba(212,168,83,0); }
         }
         .exp-company {
           font-family: 'DM Mono', monospace;
@@ -476,6 +696,7 @@ export default function Portfolio() {
           text-decoration: none;
           color: inherit;
         }
+        /* top reveal line */
         .project-card::before {
           content: '';
           position: absolute;
@@ -485,14 +706,27 @@ export default function Portfolio() {
           transform: scaleX(0);
           transform-origin: left;
           transition: transform 0.3s;
+          z-index: 2;
+        }
+        /* cursor spotlight */
+        .project-card::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(212,168,83,0.10), transparent 45%);
+          opacity: 0;
+          transition: opacity 0.3s;
+          pointer-events: none;
         }
         .project-card:hover { background: var(--surface2); }
         .project-card:hover::before { transform: scaleX(1); }
+        .project-card:hover::after { opacity: 1; }
         .project-num {
           font-family: 'DM Mono', monospace;
           font-size: 0.62rem;
           color: var(--dim);
           letter-spacing: 0.1em;
+          position: relative; z-index: 1;
         }
         .project-title {
           font-family: 'Playfair Display', serif;
@@ -500,9 +734,10 @@ export default function Portfolio() {
           font-weight: 700;
           line-height: 1.2;
           color: var(--text);
+          position: relative; z-index: 1;
         }
-        .project-desc { color: #7a7068; font-size: 0.85rem; font-weight: 300; line-height: 1.65; flex: 1; }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+        .project-desc { color: #7a7068; font-size: 0.85rem; font-weight: 300; line-height: 1.65; flex: 1; position: relative; z-index: 1; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; position: relative; z-index: 1; }
         .project-tag {
           font-family: 'DM Mono', monospace;
           font-size: 0.6rem;
@@ -518,6 +753,7 @@ export default function Portfolio() {
           font-size: 0.8rem;
           color: var(--dim);
           transition: color 0.2s, transform 0.2s;
+          z-index: 2;
         }
         .project-card:hover .project-arrow { color: var(--accent); transform: translate(2px, -2px); }
 
@@ -531,7 +767,9 @@ export default function Portfolio() {
           padding: 1.5rem 0;
           border-bottom: 1px solid var(--border);
           gap: 2rem;
+          transition: padding-left 0.3s, color 0.3s;
         }
+        .cert-item:hover { padding-left: 0.75rem; }
         .cert-item:first-child { border-top: 1px solid var(--border); }
         .cert-title {
           font-size: 0.92rem;
@@ -561,8 +799,21 @@ export default function Portfolio() {
           text-decoration: none;
           display: block;
           transition: background 0.25s;
+          position: relative;
+          overflow: hidden;
+        }
+        .pub-card::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 0; bottom: 0;
+          width: 2px;
+          background: var(--accent);
+          transform: scaleY(0);
+          transform-origin: top;
+          transition: transform 0.3s;
         }
         .pub-card:hover { background: var(--surface2); }
+        .pub-card:hover::before { transform: scaleY(1); }
         .pub-venue {
           font-family: 'DM Mono', monospace;
           font-size: 0.65rem;
@@ -600,7 +851,12 @@ export default function Portfolio() {
           line-height: 1.05;
           margin-bottom: 1.5rem;
         }
-        .contact-big span { color: var(--accent); }
+        .contact-big span {
+          background: linear-gradient(120deg, var(--accent), #f0d49a 50%, var(--accent));
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
         .contact-sub {
           color: var(--muted);
           font-size: 0.9rem;
@@ -622,7 +878,7 @@ export default function Portfolio() {
           text-decoration: none;
           transition: all 0.2s;
         }
-        .contact-chip:hover { border-color: var(--accent); color: var(--accent); }
+        .contact-chip:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
 
         /* FOOTER */
         footer {
@@ -644,14 +900,15 @@ export default function Portfolio() {
 
         /* MOBILE */
         @media (max-width: 900px) {
-          nav { padding: 1rem 1.5rem; }
+          nav, nav.scrolled { padding: 1rem 1.5rem; }
           .nav-links { display: none; }
           .nav-links.open {
             display: flex;
             flex-direction: column;
             position: fixed;
             inset: 0;
-            background: var(--bg);
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(12px);
             justify-content: center;
             align-items: center;
             gap: 2.5rem;
@@ -670,7 +927,20 @@ export default function Portfolio() {
           .cert-item { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
           footer { flex-direction: column; gap: 0.5rem; text-align: center; }
         }
+
+        /* RESPECT REDUCED MOTION */
+        @media (prefers-reduced-motion: reduce) {
+          .aurora span, .exp-current { animation: none !important; }
+          html { scroll-behavior: auto; }
+        }
       `}</style>
+
+      {/* AMBIENT LAYERS */}
+      <div className="aurora" aria-hidden="true">
+        <span className="a1" />
+        <span className="a2" />
+      </div>
+      <div className="grain" aria-hidden="true" />
 
       {/* NAV */}
       <nav className={scrollY > 40 ? "scrolled" : ""}>
@@ -700,96 +970,153 @@ export default function Portfolio() {
       {/* HERO */}
       <div className="hero" ref={heroRef}>
         <div className="hero-grid" />
-        <div className="hero-glow" />
-        <div className="hero-number">01 / INTRODUCTION</div>
-        <h1 className="hero-title">
+        <motion.div
+          className="hero-number"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        >01 / INTRODUCTION</motion.div>
+        <motion.h1
+          className="hero-title"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+        >
           Arjun<br />
           Shoba<br />
           <span>Dileep</span>
-        </h1>
-        <p className="hero-subtitle">Prompt Engineer · LLM Engineer · ML Engineer</p>
-        <p className="hero-desc">
+        </motion.h1>
+        <motion.p
+          className="hero-subtitle"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+        >AI Developer · LLM Engineer · ML Engineer</motion.p>
+        <motion.p
+          className="hero-desc"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.32, ease: [0.22, 1, 0.36, 1] }}
+        >
           MSc Big Data Analytics graduate with 2+ years of developer experience. Specialising in scalable AI systems, ETL pipelines, and LLM-powered applications.
-        </p>
-        <div className="hero-cta">
-          <a href="#projects" className="btn-primary">View Projects ↓</a>
-          <a href="#contact" className="btn-ghost">Get in Touch →</a>
-        </div>
-        <div className="hero-stats">
-          <div>
-            <div className="stat-num">2+</div>
-            <div className="stat-label">Years Exp.</div>
-          </div>
-          <div>
-            <div className="stat-num">2</div>
-            <div className="stat-label">Publications</div>
-          </div>
-          <div>
-            <div className="stat-num">7</div>
-            <div className="stat-label">Certifications</div>
-          </div>
-          <div>
-            <div className="stat-num">94.6%</div>
-            <div className="stat-label">Model Accuracy</div>
-          </div>
-        </div>
+        </motion.p>
+        <motion.div
+          className="hero-cta"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <Magnetic href="#projects" className="btn-primary">View Projects ↓</Magnetic>
+          <Magnetic href="#contact" className="btn-ghost" strength={0.25}>Get in Touch →</Magnetic>
+        </motion.div>
+        <motion.div
+          className="hero-stats"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          {stats.map((s) => (
+            <div key={s.label}>
+              <div className="stat-num">
+                <Counter to={s.to} decimals={s.decimals ?? 0} suffix={s.suffix} />
+              </div>
+              <div className="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </motion.div>
       </div>
 
       {/* ABOUT */}
       <section id="about">
-        <div className="section-label">02 / About</div>
-        <h2 className="section-title">Who I Am</h2>
+        <Reveal>
+          <div className="section-label">02 / About</div>
+          <h2 className="section-title">Who I Am</h2>
+        </Reveal>
         <div className="about-grid">
-          <div className="about-text">
-            <p>
-              I'm an AI/ML engineer and data professional based in the UK, with a Master's in Big Data Analytics. I bring production-grade instincts to every project — whether that's architecting a multi-agent LLM pipeline or building an executive-ready Power BI dashboard from millions of raw records.
-            </p>
-            <p>
-              My background spans Python development at Infosys, quality engineering at Amazon, and applied ML research published at IEEE. I thrive at the intersection of rigorous engineering and real-world impact.
-            </p>
-            <div className="ruled" />
-            <div className="skills-wrap">
-              {skills.map(s => (
-                <span key={s} className="skill-tag">{s}</span>
-              ))}
+          <Reveal delay={0.05}>
+            <div className="about-text">
+              <p>
+                I'm an AI/ML engineer and data professional based in the UK, with a Master's in Big Data Analytics. I bring production-grade instincts to every project — whether that's architecting a multi-agent LLM pipeline or building an executive-ready Power BI dashboard from millions of raw records.
+              </p>
+              <p>
+                My background spans Python development at Infosys, quality engineering at Amazon, and applied ML research published at IEEE. I thrive at the intersection of rigorous engineering and real-world impact.
+              </p>
+              <div className="ruled" />
+              <div className="skills-wrap">
+                {skills.map((s, i) => (
+                  <motion.span
+                    key={s}
+                    className="skill-tag"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.03 }}
+                  >{s}</motion.span>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="profile-card">
-            <div className="profile-img-wrap">
-              <img src="/assets/images/profile.jpg" alt="Arjun Shoba Dileep" />
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div className="profile-card">
+              <div className="profile-img-wrap">
+                <img src="/assets/images/profile.jpg" alt="Arjun Shoba Dileep" />
+              </div>
+              <div className="profile-accent-border" />
             </div>
-            <div className="profile-accent-border" />
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* EXPERIENCE */}
       <section id="experience">
-        <div className="section-label">03 / Experience</div>
-        <h2 className="section-title">Where I've<br />Worked</h2>
+        <Reveal>
+          <div className="section-label">03 / Experience</div>
+          <h2 className="section-title">Where I've<br />Worked</h2>
+        </Reveal>
         <div className="exp-list">
-          {experiences.map((e) => (
-            <div key={e.company} className="exp-item">
-              <div className="exp-meta">
-                <span className="exp-period">{e.period}</span>
-                <span className="exp-company">{e.company}</span>
-              </div>
-              <div>
-                <div className="exp-role">{e.role}</div>
-                <div className="exp-desc">{e.desc}</div>
-              </div>
-            </div>
-          ))}
+          {experiences.map((e, i) => {
+            const isCurrent = e.period.includes("Present");
+            return (
+              <Reveal key={e.company} delay={i * 0.06}>
+                <div className="exp-item">
+                  <div className="exp-meta">
+                    <span className="exp-period">
+                      {isCurrent && <span className="exp-current" />}
+                      {e.period}
+                    </span>
+                    <span className="exp-company">{e.company}</span>
+                  </div>
+                  <div>
+                    <div className="exp-role">{e.role}</div>
+                    <div className="exp-desc">{e.desc}</div>
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
 
       {/* PROJECTS */}
       <section id="projects">
-        <div className="section-label">04 / Projects</div>
-        <h2 className="section-title">Selected<br />Work</h2>
+        <Reveal>
+          <div className="section-label">04 / Projects</div>
+          <h2 className="section-title">Selected<br />Work</h2>
+        </Reveal>
         <div className="projects-grid">
           {projects.map((p, i) => (
-            <a key={p.title} href={p.link} target="_blank" rel="noopener noreferrer" className="project-card">
+            <motion.a
+              key={p.title}
+              href={p.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-card"
+              onMouseMove={onCardMove}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: (i % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+            >
               <span className="project-arrow">↗</span>
               <div className="project-num">0{i + 1}</div>
               <div className="project-title">{p.title}</div>
@@ -797,44 +1124,60 @@ export default function Portfolio() {
               <div className="project-tags">
                 {p.tags.map(t => <span key={t} className="project-tag">{t}</span>)}
               </div>
-            </a>
+            </motion.a>
           ))}
         </div>
       </section>
 
       {/* CERTIFICATIONS */}
       <section id="certifications">
-        <div className="section-label">05 / Certifications</div>
-        <h2 className="section-title">Licences &<br />Credentials</h2>
+        <Reveal>
+          <div className="section-label">05 / Certifications</div>
+          <h2 className="section-title">Licences &<br />Credentials</h2>
+        </Reveal>
         <div className="certs-list">
-          {certs.map((c) => (
-            <div key={c.title} className="cert-item">
-              <div className="cert-title">{c.title}</div>
-              <div className="cert-org">{c.org}</div>
-              <div className="cert-date">{c.date}</div>
-            </div>
+          {certs.map((c, i) => (
+            <Reveal key={c.title} delay={i * 0.04} y={16}>
+              <div className="cert-item">
+                <div className="cert-title">{c.title}</div>
+                <div className="cert-org">{c.org}</div>
+                <div className="cert-date">{c.date}</div>
+              </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
       {/* PUBLICATIONS */}
       <section id="publications">
-        <div className="section-label">06 / Publications</div>
-        <h2 className="section-title">Research &<br />Writing</h2>
+        <Reveal>
+          <div className="section-label">06 / Publications</div>
+          <h2 className="section-title">Research &<br />Writing</h2>
+        </Reveal>
         <div className="pubs-grid">
-          {publications.map((p) => (
-            <a key={p.title} href={p.link} target="_blank" rel="noopener noreferrer" className="pub-card">
+          {publications.map((p, i) => (
+            <motion.a
+              key={p.title}
+              href={p.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pub-card"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+            >
               <div className="pub-venue">{p.venue}</div>
               <div className="pub-title">{p.title}</div>
               <div className="pub-link">Read paper ↗</div>
-            </a>
+            </motion.a>
           ))}
         </div>
       </section>
 
       {/* CONTACT */}
       <section id="contact">
-        <div className="contact-inner">
+        <Reveal className="contact-inner">
           <div className="section-label" style={{ justifyContent: "center" }}>07 / Contact</div>
           <div className="contact-big">Let's <span>build</span><br />something.</div>
           <p className="contact-sub">
@@ -845,7 +1188,7 @@ export default function Portfolio() {
             <a href="https://linkedin.com/in/arjunsdileep" target="_blank" rel="noopener noreferrer" className="contact-chip">↗ LinkedIn</a>
             <a href="https://github.com/arjunyash2" target="_blank" rel="noopener noreferrer" className="contact-chip">↗ GitHub</a>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* FOOTER */}
